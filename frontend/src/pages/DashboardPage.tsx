@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import BackendStatusBadge from '../components/BackendStatusBadge'
 import ApiStatusBadge from '../components/ApiStatusBadge'
 import EmptyState from '../components/EmptyState'
 import ErrorState from '../components/ErrorState'
@@ -6,12 +7,14 @@ import LoadingState from '../components/LoadingState'
 import ProductCard from '../components/ProductCard'
 import ProductCardSkeleton from '../components/ProductCardSkeleton'
 import { getCategories, getProducts } from '../services/productsApi'
+import { checkBackendHealth } from '../services/backendApi'
 import type { Product } from '../types/product'
 
 const PRODUCTS_PER_PAGE = 10
 
 type SortOption = 'default' | 'price-low' | 'price-high' | 'rating-high'
 type ApiStatus = 'checking' | 'online' | 'offline'
+type BackendStatus = 'checking' | 'online' | 'offline'
 
 function DashboardPage() {
     const [products, setProducts] = useState<Product[]>([])
@@ -20,6 +23,7 @@ function DashboardPage() {
     const [selectedCategory, setSelectedCategory] = useState('all')
     const [sortOption, setSortOption] = useState<SortOption>('default')
     const [apiStatus, setApiStatus] = useState<ApiStatus>('checking')
+    const [backendStatus, setBackendStatus] = useState<BackendStatus>('checking')
     const [isLoading, setIsLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState('')
     const [visibleCount, setVisibleCount] = useState(PRODUCTS_PER_PAGE)
@@ -50,6 +54,16 @@ function DashboardPage() {
             setApiStatus('offline')
         } finally {
             setIsLoading(false)
+        }
+    }, [])
+
+    const loadBackendStatus = useCallback(async () => {
+        try {
+            setBackendStatus('checking')
+            await checkBackendHealth()
+            setBackendStatus('online')
+        } catch {
+            setBackendStatus('offline')
         }
     }, [])
 
@@ -161,14 +175,21 @@ function DashboardPage() {
         }
         }, [errorMessage, hasMoreProducts, isLoading, isLoadingMore])
 
+    useEffect(() => {
+        void loadBackendStatus()
+    }, [loadBackendStatus])
     return (
         <main className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
             <section className="mx-auto max-w-7xl">
                 <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <p className="text-sm font-medium text-blue-600">Dashboard</p>
-                        <ApiStatusBadge status={apiStatus} />
+                        <div className="flex flex-wrap gap-2">
+                            <ApiStatusBadge status={apiStatus} />
+                            <BackendStatusBadge status={backendStatus} />
+                        </div>
                     </div>
+
 
                     <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900">
                         Product Dashboard
