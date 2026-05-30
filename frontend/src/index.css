@@ -1,9 +1,15 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   color: #111827;
   background: #f8fafc;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {

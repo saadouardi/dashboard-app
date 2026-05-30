@@ -194,9 +194,9 @@ function DashboardPage() {
         void loadBackendStatus()
     }, [loadBackendStatus])
     return (
-        <main className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+        <main className="px-4 py-6 transition-colors sm:px-6 sm:py-8 lg:px-8">
             <section className="mx-auto max-w-7xl">
-                <div className="animate-fade-in-up rounded-2xl bg-white p-6 shadow-sm sm:p-8">
+                <div className="animate-fade-in-up rounded-2xl bg-white dark:bg-slate-900 p-6 shadow-sm sm:p-8">
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <p className="text-sm font-medium text-blue-600">Dashboard</p>
                         <div className="flex flex-wrap gap-2">
@@ -206,40 +206,40 @@ function DashboardPage() {
                     </div>
 
 
-                    <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900">
+                    <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
                         Product Dashboard
                     </h1>
 
-                    <p className="mt-4 max-w-2xl text-slate-600">
+                    <p className="mt-4 max-w-2xl text-slate-600 dark:text-slate-300">
                         Browse products, search by keyword, filter by category and open
                         detailed product information.
                     </p>
 
                     <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                            <p className="text-sm text-slate-500">Products</p>
-                            <p className="mt-2 text-2xl font-bold text-slate-900">
+                        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 p-4">
+                            <p className="text-sm text-slate-500 dark:text-slate-400">Products</p>
+                            <p className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
                                 {products.length}
                             </p>
                         </div>
 
-                        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                            <p className="text-sm text-slate-500">Categories</p>
-                            <p className="mt-2 text-2xl font-bold text-slate-900">
+                        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 p-4">
+                            <p className="text-sm text-slate-500 dark:text-slate-400">Categories</p>
+                            <p className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
                                 {categories.length}
                             </p>
                         </div>
 
-                        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                            <p className="text-sm text-slate-500">Average Rating</p>
-                            <p className="mt-2 text-2xl font-bold text-slate-900">
+                        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 p-4">
+                            <p className="text-sm text-slate-500 dark:text-slate-400">Average Rating</p>
+                            <p className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
                                 {averageRating.toFixed(1)}
                             </p>
                         </div>
 
-                        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                            <p className="text-sm text-slate-500">Highest Price</p>
-                            <p className="mt-2 text-2xl font-bold text-slate-900">
+                        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 p-4">
+                            <p className="text-sm text-slate-500 dark:text-slate-400">Highest Price</p>
+                            <p className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
                                 ${highestPrice}
                             </p>
                         </div>
@@ -247,15 +247,15 @@ function DashboardPage() {
                 </div>
                 
                 
-                <div className="mt-6 animate-fade-in-up rounded-2xl bg-white p-4 shadow-sm sm:p-6">
+                <div className="mt-6 animate-fade-in-up rounded-2xl bg-white dark:bg-slate-900 p-4 shadow-sm sm:p-6">
 
                     <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                            <h2 className="text-lg font-semibold text-slate-900">
+                            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
                                 Explore products
                             </h2>
 
-                            <p className="mt-1 text-sm text-slate-500">
+                            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                                 Search, filter and sort products dynamically.
                             </p>
                         </div>
@@ -264,7 +264,7 @@ function DashboardPage() {
                             <button
                                 type="button"
                                 onClick={handleClearFilters}
-                                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                                className="rounded-lg border border-slate-200 dark:border-slate-800 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 cursor-pointer"
                             >
                                 Clear filters
                             </button>
@@ -273,7 +273,7 @@ function DashboardPage() {
 
                     <div className="grid gap-4 md:grid-cols-3">
                         <label className="block">
-                            <span className="text-sm font-medium text-slate-700">
+                            <span className="text-sm font-medium text-slate-700 dark:text-slate-400">
                                 Search
                             </span>
                             <input
@@ -281,18 +281,18 @@ function DashboardPage() {
                                 value={searchTerm}
                                 onChange={(event) => handleSearchChange(event.target.value)}
                                 placeholder="Search products..."
-                                className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                                className="mt-2 w-full rounded-xl border border-slate-200 dark:text-white dark:border-slate-800 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                             />
                         </label>
 
                         <label className="block">
-                            <span className="text-sm font-medium text-slate-700">
+                            <span className="text-sm font-medium text-slate-700 dark:text-slate-400">
                                 Category
                             </span>
                             <select
                                 value={selectedCategory}
                                 onChange={(event) => handleCategoryChange(event.target.value)}
-                                className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                                className="mt-2 w-full rounded-xl border border-slate-200 dark:text-white dark:bg-slate-900 dark:border-slate-800 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                             >
                                 <option value="all">All categories</option>
                                 {categories.map((category) => (
@@ -304,13 +304,13 @@ function DashboardPage() {
                         </label>
 
                         <label className="block">
-                            <span className="text-sm font-medium text-slate-700">Sort</span>
+                            <span className="text-sm font-medium text-slate-700 dark:text-slate-400">Sort</span>
                             <select
                                 value={sortOption}
                                 onChange={(event) =>
                                 handleSortChange(event.target.value as SortOption)
                                 }
-                                className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                                className="mt-2 w-full rounded-xl border border-slate-200 dark:text-white dark:bg-slate-900 dark:border-slate-800 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                             >
                                 <option value="default">Default</option>
                                 <option value="price-low">Price: Low to high</option>
@@ -356,14 +356,14 @@ function DashboardPage() {
 
                     {!isLoading && !errorMessage && filteredProducts.length > 0 && (
                     <>
-                        <div className="mb-4 flex items-center justify-between text-sm text-slate-500">
+                        <div className="mb-4 flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
                         <p>
                             Showing{' '}
-                            <span className="font-medium text-slate-900">
+                            <span className="font-medium text-slate-900 dark:text-white">
                             {visibleProducts.length}
                             </span>{' '}
                             of{' '}
-                            <span className="font-medium text-slate-900">
+                            <span className="font-medium text-slate-900 dark:text-white">
                             {filteredProducts.length}
                             </span>{' '}
                             products
@@ -384,7 +384,7 @@ function DashboardPage() {
                         <div ref={loadMoreRef} className="h-10" />
 
                         {!hasMoreProducts && (
-                        <p className="mt-8 text-center text-sm text-slate-500">
+                        <p className="mt-8 text-center text-sm text-slate-500 dark:text-slate-400">
                             You have reached the end of the product list.
                         </p>
                         )}

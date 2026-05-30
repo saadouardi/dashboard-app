@@ -53,7 +53,7 @@ function ProductDetailPage() {
       <section className="mx-auto max-w-6xl">
         <Link
           to="/"
-          className="inline-flex rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50"
+          className="rounded-lg border border-slate-200 dark:border-slate-800 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
         >
           ← Back to dashboard
         </Link>
@@ -66,9 +66,9 @@ function ProductDetailPage() {
           )}
 
           {!isLoading && !errorMessage && product && (
-            <article className="animate-fade-in-up overflow-hidden rounded-2xl bg-white shadow-sm">
+            <article className="animate-fade-in-up overflow-hidden rounded-2xl bg-white dark:bg-slate-900 shadow-sm">
               <div className="grid gap-8 p-6 lg:grid-cols-2 lg:p-8">
-                <div className="rounded-2xl bg-slate-100 p-6">
+                <div className="rounded-2xl bg-slate-100 dark:bg-slate-700 p-6">
                   <img
                     src={product.thumbnail}
                     alt={product.title}
@@ -80,7 +80,7 @@ function ProductDetailPage() {
                       {product.images.slice(0, 4).map((image) => (
                         <div
                           key={image}
-                          className="flex h-20 items-center justify-center rounded-xl border border-slate-200 bg-white p-2"
+                          className="flex h-20 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-2"
                         >
                           <img
                             src={image}
@@ -98,11 +98,11 @@ function ProductDetailPage() {
                     {product.category}
                   </p>
 
-                  <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900">
+                  <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
                     {product.title}
                   </h1>
 
-                  <p className="mt-4 text-slate-600">{product.description}</p>
+                  <p className="mt-4 text-slate-600 dark:text-slate-300">{product.description}</p>
 
                   <div className="mt-6 flex flex-wrap items-center gap-3">
                     <span className="rounded-full bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700">
@@ -119,41 +119,41 @@ function ProductDetailPage() {
                   </div>
 
                   <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                      <p className="text-sm text-slate-500">Brand</p>
-                      <p className="mt-1 font-semibold text-slate-900">
+                    <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 p-4">
+                      <p className="text-sm text-slate-500 dark:text-slate-400">Brand</p>
+                      <p className="mt-1 font-semibold text-slate-900 dark:text-white">
                         {product.brand ?? 'Not specified'}
                       </p>
                     </div>
 
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                      <p className="text-sm text-slate-500">SKU</p>
-                      <p className="mt-1 font-semibold text-slate-900">
+                    <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 p-4">
+                      <p className="text-sm text-slate-500 dark:text-slate-400">SKU</p>
+                      <p className="mt-1 font-semibold text-slate-900 dark:text-white">
                         {product.sku ?? 'Not specified'}
                       </p>
                     </div>
 
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                      <p className="text-sm text-slate-500">Discount</p>
-                      <p className="mt-1 font-semibold text-slate-900">
+                    <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 p-4">
+                      <p className="text-sm text-slate-500 dark:text-slate-400">Discount</p>
+                      <p className="mt-1 font-semibold text-slate-900 dark:text-white">
                         {product.discountPercentage}% off
                       </p>
                     </div>
 
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                      <p className="text-sm text-slate-500">Product ID</p>
-                      <p className="mt-1 font-semibold text-slate-900">
+                    <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 p-4">
+                      <p className="text-sm text-slate-500 dark:text-slate-400">Product ID</p>
+                      <p className="mt-1 font-semibold text-slate-900 dark:text-white">
                         #{product.id}
                       </p>
                     </div>
                   </div>
 
-                  <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                    <p className="text-sm font-semibold text-slate-900">
+                  <div className="mt-8 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 p-5">
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">
                       API Integration
                     </p>
 
-                    <p className="mt-2 text-sm text-slate-600">
+                    <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
                       This detail page is loaded dynamically from the public API
                       based on the route parameter.
                     </p>

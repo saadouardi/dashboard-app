@@ -8,7 +8,7 @@ import ProductDetailPage from './pages/ProductDetailPage'
 
 function App() {
   return (
-    <div className="flex min-h-screen flex-col bg-slate-50">
+    <div className="flex min-h-screen flex-col bg-slate-50 transition-colors dark:bg-slate-950">
       <Header />
 
       <div className="flex-1">
