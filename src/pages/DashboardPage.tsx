@@ -1,14 +1,17 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import EmptyState from '../components/EmptyState'
 import ErrorState from '../components/ErrorState'
 import LoadingState from '../components/LoadingState'
 import ProductCard from '../components/ProductCard'
+import ProductCardSkeleton from '../components/ProductCardSkeleton'
 import { getCategories, getProducts } from '../services/productsApi'
 import type { Product } from '../types/product'
 
 type SortOption = 'default' | 'price-low' | 'price-high' | 'rating-high'
 
 function DashboardPage() {
+    const PRODUCTS_PER_PAGE = 10
+
     const [products, setProducts] = useState<Product[]>([])
     const [categories, setCategories] = useState<string[]>([])
     const [searchTerm, setSearchTerm] = useState('')
@@ -16,6 +19,9 @@ function DashboardPage() {
     const [sortOption, setSortOption] = useState<SortOption>('default')
     const [isLoading, setIsLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState('')
+    const [visibleCount, setVisibleCount] = useState(PRODUCTS_PER_PAGE)
+    const [isLoadingMore, setIsLoadingMore] = useState(false)
+    const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
     async function loadDashboardData() {
         try {
@@ -40,10 +46,6 @@ function DashboardPage() {
             setIsLoading(false)
         }
     }
-
-    useEffect(() => {
-        loadDashboardData()
-    }, [])
 
     const filteredProducts = useMemo(() => {
         const normalizedSearch = searchTerm.trim().toLowerCase()
@@ -77,6 +79,12 @@ function DashboardPage() {
         })
     }, [products, searchTerm, selectedCategory, sortOption])
 
+    const visibleProducts = useMemo(() => {
+        return filteredProducts.slice(0, visibleCount)
+    }, [filteredProducts, visibleCount])
+
+    const hasMoreProducts = visibleCount < filteredProducts.length
+
     const averageRating = useMemo(() => {
         if (products.length === 0) return 0
 
@@ -93,6 +101,48 @@ function DashboardPage() {
 
         return Math.max(...products.map((product) => product.price))
     }, [products])
+
+    useEffect(() => {
+        loadDashboardData()
+    }, [])
+
+    useEffect(() => {
+        setVisibleCount(PRODUCTS_PER_PAGE)
+    }, [searchTerm, selectedCategory, sortOption])
+
+    useEffect(() => {
+        const observerTarget = loadMoreRef.current
+
+        if (!observerTarget || isLoading || errorMessage || !hasMoreProducts) {
+            return
+        }
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+            const firstEntry = entries[0]
+
+            if (firstEntry.isIntersecting && !isLoadingMore) {
+                setIsLoadingMore(true)
+
+                window.setTimeout(() => {
+                setVisibleCount((currentCount) => currentCount + PRODUCTS_PER_PAGE)
+                setIsLoadingMore(false)
+                }, 600)
+            }
+            },
+            {
+            root: null,
+            rootMargin: '200px',
+            threshold: 0,
+            },
+        )
+
+        observer.observe(observerTarget)
+
+        return () => {
+            observer.unobserve(observerTarget)
+        }
+        }, [errorMessage, hasMoreProducts, isLoading, isLoadingMore])
 
     return (
         <main className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
@@ -203,11 +253,40 @@ function DashboardPage() {
                     )}
 
                     {!isLoading && !errorMessage && filteredProducts.length > 0 && (
+                    <>
+                        <div className="mb-4 flex items-center justify-between text-sm text-slate-500">
+                        <p>
+                            Showing{' '}
+                            <span className="font-medium text-slate-900">
+                            {visibleProducts.length}
+                            </span>{' '}
+                            of{' '}
+                            <span className="font-medium text-slate-900">
+                            {filteredProducts.length}
+                            </span>{' '}
+                            products
+                        </p>
+                        </div>
+
                         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                            {filteredProducts.map((product) => (
-                                <ProductCard key={product.id} product={product} />
+                        {visibleProducts.map((product) => (
+                            <ProductCard key={product.id} product={product} />
+                        ))}
+
+                        {isLoadingMore &&
+                            Array.from({ length: 3 }).map((_, index) => (
+                            <ProductCardSkeleton key={`skeleton-${index}`} />
                             ))}
                         </div>
+
+                        <div ref={loadMoreRef} className="h-10" />
+
+                        {!hasMoreProducts && (
+                        <p className="mt-8 text-center text-sm text-slate-500">
+                            You have reached the end of the product list.
+                        </p>
+                        )}
+                    </>
                     )}
                 </div>
             </section>
