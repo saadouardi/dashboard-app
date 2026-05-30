@@ -5,11 +5,8 @@
 
 ## to add
 
-- icon web, SEO
+- 
 - website & LinkedIn on header
-- Not all in once: 10 by 10 + pagination (Loading)
-- delay of showing (3sec)
-- skeleton, loaidng, animation, style (light/dark)
 
 ## Run Frontend
 
@@ -26,3 +23,14 @@
     pip install -r requirements.txt
     uvicorn main:app --reload --port 8000
 ```
+
+before that let's go on page by page:
+
+1- clean code and see if we have something (major to add) if not ignore
+
+2- something that will make them say: nah this guy used AI for the entire project
+
+3- any suspicious or small detail that will grant me a rejection
+
+please step by step and going file by file.
+
