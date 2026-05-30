@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="Dashboard Backend",
-    description="Optional FastAPI backend for the React dashboard coding task.",
+    description="Optional FastAPI service for exposing project metadata and health status.",
     version="1.0.0",
 )
 
@@ -45,12 +45,13 @@ def project_info():
         "backend": "FastAPI",
         "api": "DummyJSON Products API",
         "features": [
-            "Dashboard",
+            "Dashboard overview",
             "Product detail page",
             "Search and filtering",
             "Sorting",
             "Infinite scroll",
             "Loading and error states",
             "Responsive layout",
+            "Light and dark mode",
         ],
     }

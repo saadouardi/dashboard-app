@@ -4,13 +4,16 @@ type ApiStatusBadgeProps = {
   status: ApiStatus
 }
 
-const statusStyles = {
-  checking: 'border-yellow-200 bg-yellow-50 text-yellow-700',
-  online: 'border-green-200 bg-green-50 text-green-700',
-  offline: 'border-red-200 bg-red-50 text-red-700',
+const statusStyles: Record<ApiStatus, string> = {
+  checking:
+    'border-yellow-200 bg-yellow-50 text-yellow-700 dark:border-yellow-900/60 dark:bg-yellow-950/30 dark:text-yellow-300',
+  online:
+    'border-green-200 bg-green-50 text-green-700 dark:border-green-900/60 dark:bg-green-950/30 dark:text-green-300',
+  offline:
+    'border-red-200 bg-red-50 text-red-700 dark:border-red-900/60 dark:bg-red-950/30 dark:text-red-300',
 }
 
-const statusLabels = {
+const statusLabels: Record<ApiStatus, string> = {
   checking: 'Checking API...',
   online: 'API Online',
   offline: 'API Error',

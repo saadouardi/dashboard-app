@@ -5,10 +5,12 @@ type ErrorStateProps = {
 
 function ErrorState({ message, onRetry }: ErrorStateProps) {
     return (
-        <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center">
-            <p className="text-sm font-semibold text-red-700">Something went wrong</p>
+        <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center dark:border-red-900/60 dark:bg-red-950/30">
+            <p className="text-sm font-semibold text-red-700 dark:text-red-300">
+                Something went wrong
+            </p>
 
-            <p className="mt-2 text-sm text-red-600">{message}</p>
+            <p className="mt-2 text-sm text-red-600 dark:text-red-200">{message}</p>
 
             {onRetry && (
                 <button

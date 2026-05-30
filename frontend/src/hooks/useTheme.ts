@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 
 type Theme = 'light' | 'dark'
 
+const STORAGE_KEY = 'dashboard-theme'
+
 function getInitialTheme(): Theme {
-  const savedTheme = window.localStorage.getItem('dashboard-theme')
+    const savedTheme = window.localStorage.getItem(STORAGE_KEY)
 
     if (savedTheme === 'light' || savedTheme === 'dark') {
         return savedTheme
@@ -20,13 +22,8 @@ export function useTheme() {
     useEffect(() => {
         const rootElement = document.documentElement
 
-        if (theme === 'dark') {
-            rootElement.classList.add('dark')
-        } else {
-            rootElement.classList.remove('dark')
-        }
-
-        window.localStorage.setItem('dashboard-theme', theme)
+        rootElement.classList.toggle('dark', theme === 'dark')
+        window.localStorage.setItem(STORAGE_KEY, theme)
     }, [theme])
 
     function toggleTheme() {

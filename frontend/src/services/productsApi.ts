@@ -16,7 +16,10 @@ export async function getProducts(): Promise<ProductsResponse> {
 }
 
 export async function getProductById(id: string): Promise<Product> {
-    const response = await fetch(`${API_BASE_URL}/products/${id}`)
+    const response = await fetch(
+        `${API_BASE_URL}/products/${encodeURIComponent(id)}`,
+    )
+
     return handleResponse<Product>(response)
 }
 
