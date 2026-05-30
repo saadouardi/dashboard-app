@@ -44,6 +44,7 @@ The project was created as a frontend coding task. It focuses on clean component
 dashboard-app/
 ├── frontend/
 │   ├── src/
+│   │   ├── assets/
 │   │   ├── components/
 │   │   ├── hooks/
 │   │   ├── pages/
