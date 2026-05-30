@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import EmptyState from '../components/EmptyState'
 import ErrorState from '../components/ErrorState'
 import LoadingState from '../components/LoadingState'
@@ -7,11 +7,11 @@ import ProductCardSkeleton from '../components/ProductCardSkeleton'
 import { getCategories, getProducts } from '../services/productsApi'
 import type { Product } from '../types/product'
 
+const PRODUCTS_PER_PAGE = 10
+
 type SortOption = 'default' | 'price-low' | 'price-high' | 'rating-high'
 
 function DashboardPage() {
-    const PRODUCTS_PER_PAGE = 10
-
     const [products, setProducts] = useState<Product[]>([])
     const [categories, setCategories] = useState<string[]>([])
     const [searchTerm, setSearchTerm] = useState('')
@@ -23,7 +23,7 @@ function DashboardPage() {
     const [isLoadingMore, setIsLoadingMore] = useState(false)
     const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
-    async function loadDashboardData() {
+    const loadDashboardData = useCallback(async () => {
         try {
             setIsLoading(true)
             setErrorMessage('')
@@ -37,7 +37,7 @@ function DashboardPage() {
             setCategories(categoriesData)
         } catch (error) {
             const message =
-                error instanceof Error
+            error instanceof Error
                 ? error.message
                 : 'Unable to load products. Please try again.'
 
@@ -45,7 +45,7 @@ function DashboardPage() {
         } finally {
             setIsLoading(false)
         }
-    }
+    }, [])
 
     const filteredProducts = useMemo(() => {
         const normalizedSearch = searchTerm.trim().toLowerCase()
@@ -102,13 +102,24 @@ function DashboardPage() {
         return Math.max(...products.map((product) => product.price))
     }, [products])
 
-    useEffect(() => {
-        loadDashboardData()
-    }, [])
+    function handleSearchChange(value: string) {
+        setSearchTerm(value)
+        setVisibleCount(PRODUCTS_PER_PAGE)
+    }
+
+    function handleCategoryChange(value: string) {
+        setSelectedCategory(value)
+        setVisibleCount(PRODUCTS_PER_PAGE)
+    }
+
+    function handleSortChange(value: SortOption) {
+        setSortOption(value)
+        setVisibleCount(PRODUCTS_PER_PAGE)
+    }
 
     useEffect(() => {
-        setVisibleCount(PRODUCTS_PER_PAGE)
-    }, [searchTerm, selectedCategory, sortOption])
+        void loadDashboardData()
+    }, [loadDashboardData])
 
     useEffect(() => {
         const observerTarget = loadMoreRef.current
@@ -199,7 +210,7 @@ function DashboardPage() {
                             <input
                                 type="search"
                                 value={searchTerm}
-                                onChange={(event) => setSearchTerm(event.target.value)}
+                                onChange={(event) => handleSearchChange(event.target.value)}
                                 placeholder="Search products..."
                                 className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                             />
@@ -211,7 +222,7 @@ function DashboardPage() {
                             </span>
                             <select
                                 value={selectedCategory}
-                                onChange={(event) => setSelectedCategory(event.target.value)}
+                                onChange={(event) => handleCategoryChange(event.target.value)}
                                 className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                             >
                                 <option value="all">All categories</option>
@@ -228,7 +239,7 @@ function DashboardPage() {
                             <select
                                 value={sortOption}
                                 onChange={(event) =>
-                                setSortOption(event.target.value as SortOption)
+                                handleSortChange(event.target.value as SortOption)
                                 }
                                 className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                             >
