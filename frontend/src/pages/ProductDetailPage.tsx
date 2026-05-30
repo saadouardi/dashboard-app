@@ -4,6 +4,9 @@ import ErrorState from '../components/ErrorState'
 import LoadingState from '../components/LoadingState'
 import { getProductById } from '../services/productsApi'
 import type { Product } from '../types/product'
+import { delay } from '../utils/delay'
+
+const MIN_LOADING_DELAY_MS = 800
 
 function ProductDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -23,7 +26,10 @@ function ProductDetailPage() {
       setIsLoading(true)
       setErrorMessage('')
 
-      const productData = await getProductById(id)
+      const [productData] = await Promise.all([
+        getProductById(id),
+        delay(MIN_LOADING_DELAY_MS),
+      ])
 
       setProduct(productData)
     } catch (error) {
@@ -60,7 +66,7 @@ function ProductDetailPage() {
           )}
 
           {!isLoading && !errorMessage && product && (
-            <article className="overflow-hidden rounded-2xl bg-white shadow-sm">
+            <article className="animate-fade-in-up overflow-hidden rounded-2xl bg-white shadow-sm">
               <div className="grid gap-8 p-6 lg:grid-cols-2 lg:p-8">
                 <div className="rounded-2xl bg-slate-100 p-6">
                   <img

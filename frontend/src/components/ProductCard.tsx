@@ -7,7 +7,7 @@ type ProductCardProps = {
 
 function ProductCard({ product }: ProductCardProps) {
     return (
-        <article className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+        <article className="animate-fade-in-up overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-md">
             <div className="flex h-48 items-center justify-center bg-slate-100">
                 <img
                     src={product.thumbnail}

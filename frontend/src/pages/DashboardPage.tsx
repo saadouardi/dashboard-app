@@ -9,8 +9,10 @@ import ProductCardSkeleton from '../components/ProductCardSkeleton'
 import { getCategories, getProducts } from '../services/productsApi'
 import { checkBackendHealth } from '../services/backendApi'
 import type { Product } from '../types/product'
+import { delay } from '../utils/delay'
 
 const PRODUCTS_PER_PAGE = 10
+const MIN_LOADING_DELAY_MS = 1000
 
 type SortOption = 'default' | 'price-low' | 'price-high' | 'rating-high'
 type ApiStatus = 'checking' | 'online' | 'offline'
@@ -39,6 +41,7 @@ function DashboardPage() {
             const [productsData, categoriesData] = await Promise.all([
                 getProducts(),
                 getCategories(),
+                delay(MIN_LOADING_DELAY_MS),
             ])
 
             setProducts(productsData.products)
@@ -193,7 +196,7 @@ function DashboardPage() {
     return (
         <main className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
             <section className="mx-auto max-w-7xl">
-                <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
+                <div className="animate-fade-in-up rounded-2xl bg-white p-6 shadow-sm sm:p-8">
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <p className="text-sm font-medium text-blue-600">Dashboard</p>
                         <div className="flex flex-wrap gap-2">
@@ -244,7 +247,7 @@ function DashboardPage() {
                 </div>
                 
                 
-                <div className="mt-6 rounded-2xl bg-white p-4 shadow-sm sm:p-6">
+                <div className="mt-6 animate-fade-in-up rounded-2xl bg-white p-4 shadow-sm sm:p-6">
 
                     <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
