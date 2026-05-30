@@ -122,6 +122,11 @@ function DashboardPage() {
         return Math.max(...products.map((product) => product.price))
     }, [products])
 
+    const hasActiveFilters =
+        searchTerm.trim() !== '' ||
+        selectedCategory !== 'all' ||
+        sortOption !== 'default'
+
     function handleSearchChange(value: string) {
         setSearchTerm(value)
         setVisibleCount(PRODUCTS_PER_PAGE)
@@ -134,6 +139,13 @@ function DashboardPage() {
 
     function handleSortChange(value: SortOption) {
         setSortOption(value)
+        setVisibleCount(PRODUCTS_PER_PAGE)
+    }
+
+    function handleClearFilters() {
+        setSearchTerm('')
+        setSelectedCategory('all')
+        setSortOption('default')
         setVisibleCount(PRODUCTS_PER_PAGE)
     }
 
@@ -230,8 +242,32 @@ function DashboardPage() {
                         </div>
                     </div>
                 </div>
-
+                
+                
                 <div className="mt-6 rounded-2xl bg-white p-4 shadow-sm sm:p-6">
+
+                    <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <h2 className="text-lg font-semibold text-slate-900">
+                                Explore products
+                            </h2>
+
+                            <p className="mt-1 text-sm text-slate-500">
+                                Search, filter and sort products dynamically.
+                            </p>
+                        </div>
+
+                        {hasActiveFilters && (
+                            <button
+                                type="button"
+                                onClick={handleClearFilters}
+                                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                            >
+                                Clear filters
+                            </button>
+                        )}
+                    </div>
+
                     <div className="grid gap-4 md:grid-cols-3">
                         <label className="block">
                             <span className="text-sm font-medium text-slate-700">
@@ -280,6 +316,28 @@ function DashboardPage() {
                             </select>
                         </label>
                     </div>
+
+                    {hasActiveFilters && (
+                        <div className="mt-5 flex flex-wrap gap-2 text-xs">
+                            {searchTerm.trim() !== '' && (
+                            <span className="rounded-full bg-blue-50 px-3 py-1 font-medium text-blue-700">
+                                Search: {searchTerm}
+                            </span>
+                            )}
+
+                            {selectedCategory !== 'all' && (
+                            <span className="rounded-full bg-purple-50 px-3 py-1 font-medium text-purple-700">
+                                Category: {selectedCategory}
+                            </span>
+                            )}
+
+                            {sortOption !== 'default' && (
+                            <span className="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700">
+                                Sort: {sortOption.replace('-', ' ')}
+                            </span>
+                            )}
+                        </div>
+                        )}
                 </div>
 
                 <div className="mt-6">

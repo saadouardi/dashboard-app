@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
-import Footer from './components/Footer'
 import Header from './components/Header'
+import ScrollToTopButton from './components/ScrollToTopButton'
+import Footer from './components/Footer'
 import DashboardPage from './pages/DashboardPage'
 import NotFoundPage from './pages/NotFoundPage'
 import ProductDetailPage from './pages/ProductDetailPage'
@@ -18,6 +19,7 @@ function App() {
         </Routes>
       </div>
 
+      <ScrollToTopButton />
       <Footer />
     </div>
   )
