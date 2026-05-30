@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import ApiStatusBadge from '../components/ApiStatusBadge'
 import EmptyState from '../components/EmptyState'
 import ErrorState from '../components/ErrorState'
 import LoadingState from '../components/LoadingState'
@@ -10,6 +11,7 @@ import type { Product } from '../types/product'
 const PRODUCTS_PER_PAGE = 10
 
 type SortOption = 'default' | 'price-low' | 'price-high' | 'rating-high'
+type ApiStatus = 'checking' | 'online' | 'offline'
 
 function DashboardPage() {
     const [products, setProducts] = useState<Product[]>([])
@@ -17,6 +19,7 @@ function DashboardPage() {
     const [searchTerm, setSearchTerm] = useState('')
     const [selectedCategory, setSelectedCategory] = useState('all')
     const [sortOption, setSortOption] = useState<SortOption>('default')
+    const [apiStatus, setApiStatus] = useState<ApiStatus>('checking')
     const [isLoading, setIsLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState('')
     const [visibleCount, setVisibleCount] = useState(PRODUCTS_PER_PAGE)
@@ -26,6 +29,7 @@ function DashboardPage() {
     const loadDashboardData = useCallback(async () => {
         try {
             setIsLoading(true)
+            setApiStatus('checking')
             setErrorMessage('')
 
             const [productsData, categoriesData] = await Promise.all([
@@ -35,6 +39,7 @@ function DashboardPage() {
 
             setProducts(productsData.products)
             setCategories(categoriesData)
+            setApiStatus('online')
         } catch (error) {
             const message =
             error instanceof Error
@@ -42,6 +47,7 @@ function DashboardPage() {
                 : 'Unable to load products. Please try again.'
 
             setErrorMessage(message)
+            setApiStatus('offline')
         } finally {
             setIsLoading(false)
         }
@@ -159,7 +165,10 @@ function DashboardPage() {
         <main className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
             <section className="mx-auto max-w-7xl">
                 <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
-                    <p className="text-sm font-medium text-blue-600">Dashboard</p>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <p className="text-sm font-medium text-blue-600">Dashboard</p>
+                        <ApiStatusBadge status={apiStatus} />
+                    </div>
 
                     <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900">
                         Product Dashboard
