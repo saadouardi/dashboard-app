@@ -12,7 +12,7 @@ import type { Product } from '../types/product'
 import { delay } from '../utils/delay'
 
 const PRODUCTS_PER_PAGE = 10
-const MIN_LOADING_DELAY_MS = 1000
+const MIN_LOADING_DELAY_MS = 400
 
 type SortOption = 'default' | 'price-low' | 'price-high' | 'rating-high'
 type ApiStatus = 'checking' | 'online' | 'offline'

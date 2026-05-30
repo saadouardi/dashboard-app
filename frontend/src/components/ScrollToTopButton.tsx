@@ -8,7 +8,7 @@ function ScrollToTopButton() {
       setIsVisible(window.scrollY > 500)
     }
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
@@ -30,7 +30,7 @@ function ScrollToTopButton() {
     <button
       type="button"
       onClick={scrollToTop}
-      className="fixed bottom-6 right-6 z-40 rounded-full bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-1 hover:bg-blue-700"
+      className="fixed bottom-6 right-6 z-40 rounded-full bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-1 hover:bg-blue-700 cursor-pointer"
       title="Scroll back to top"
     >
       ↑ Top

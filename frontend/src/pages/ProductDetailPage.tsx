@@ -6,7 +6,7 @@ import { getProductById } from '../services/productsApi'
 import type { Product } from '../types/product'
 import { delay } from '../utils/delay'
 
-const MIN_LOADING_DELAY_MS = 800
+const MIN_LOADING_DELAY_MS = 300
 
 function ProductDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -146,17 +146,6 @@ function ProductDetailPage() {
                         #{product.id}
                       </p>
                     </div>
-                  </div>
-
-                  <div className="mt-8 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 p-5">
-                    <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                      API Integration
-                    </p>
-
-                    <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-                      This detail page is loaded dynamically from the public API
-                      based on the route parameter.
-                    </p>
                   </div>
                 </div>
               </div>
